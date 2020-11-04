@@ -1,38 +1,57 @@
 
 import string 
 import re
-  
-# Open the file in read mode 
-text = open("Shakespeare.txt", "r") 
-  
-# Create an empty dictionary 
-d = dict() 
-  
-# Loop through each line of the file 
-for line in text: 
-    # Remove the leading spaces and newline character 
-    line = line.strip() 
-  
-    # Convert the characters in line to  
-    # lowercase to avoid case mismatch 
-    line = line.lower() 
-  
-    # Remove the punctuation marks from the line 
-    line = ''.join(re.findall('[a-zA-Z0-9@\s:]+',line))
-  
-    # Split the line into words 
-    words = line.split(" ") 
-  
-    # Iterate over each word in line 
-    for word in words: 
-        # Check if the word is already in dictionary 
-        if word in d: 
-            # Increment count of word by 1 
-            d[word] = d[word] + 1
-        else: 
-            # Add the word to dictionary with count 1 
-            d[word] = 1
-  
-# Print the contents of dictionary 
-for key in list(d.keys()): 
-    print(key, ":", d[key]) 
+import json 
+import pydoop.hdfs as hdfs 
+
+def count_words(file, num=True):
+
+    r = None
+
+    if num:
+        r = '[a-zA-Z0-9@\s]+'
+    else:
+        r = '[a-zA-ZA\s]+'
+
+    d = {}
+    w = []
+    with open(file, 'r') as file:
+        
+        for line in file:
+            line = line.lower()
+            line = ''.join(re.findall(r, line))
+            w += line.split()
+
+
+    for words in w:
+        d[words] = d.get(words,0) + 1
+
+    return d
+
+
+
+def send_file(file):
+    print("Saving to HDFS")
+
+    dest = 'hdfs://localhost:9000/Task-002/output_python.txt'
+    hdfs.put(file, dest)
+    print("Saved to HDFS")
+
+def save_output(dic):
+    dumps = json.dumps(dic, sort_keys = True, indent=4)
+    with open('python_output.txt', "w") as file:
+        file.write(dumps)
+        
+
+def main():
+    print("Retrieving file: ")
+    file = count_words('Shakespeare.txt')
+    print("Reading the output")
+    print("Saving the output")
+    save_output(file)
+    send_file("output_python2.txt")
+    print("Completed")
+    print(file)
+
+
+main()
