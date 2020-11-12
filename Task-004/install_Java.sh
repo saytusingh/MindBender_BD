@@ -14,7 +14,7 @@ tar -zxvf jdk-8u221-linux-x64.tar.gz
 
 
 rm jdk-8u221-linux-x64.tar.gz
-
+gedit 
 cd 
 
 touch bash_profile
