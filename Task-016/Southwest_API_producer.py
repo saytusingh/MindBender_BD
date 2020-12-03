@@ -4,7 +4,7 @@ from kafka import KafkaClient
 
 TOPIC = "southwest"
 
-url = "https://southwest.p.rapidapi.com/flights/ATL/LGA/2020-12-01"
+url = "https://southwest.p.rapidapi.com/flights/ATL/LGA/2020-12-15"
 
 querystring = {"currency":"USD","adults":"1","seniors":"0"}
 
