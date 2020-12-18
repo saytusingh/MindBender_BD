@@ -28,7 +28,7 @@ kafka = KafkaClient("localhost:9099")
 producer = SimpleProducer(kafka)
 
 headers = {
-   'x-rapidapi-key': "9a32fef024mshfc53db42b8b0fcdp16aee0jsnb5dac4c492f2",
+   'x-rapidapi-key': KEY ACCESS,
   'x-rapidapi-host': "aerodatabox.p.rapidapi.com"
   }
 
